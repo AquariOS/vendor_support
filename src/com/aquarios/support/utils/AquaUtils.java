@@ -47,6 +47,7 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.DisplayInfo;
 import android.view.InputDevice;
@@ -310,21 +311,10 @@ public class AquaUtils {
 
     // Check to see if device display has a cutout notch
     public static boolean hasVisibleNotch(Context context) {
-        int result = 0;
-        int resid;
-        int resourceId = context.getResources().getIdentifier(
-                "status_bar_height", "dimen", "android");
-        resid = context.getResources().getIdentifier("config_fillMainBuiltInDisplayCutout",
-                "bool", "android");
-        if (resid > 0) {
-            return context.getResources().getBoolean(resid);
-        }
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        float px = 24 * (metrics.densityDpi / 160f);
-        return result > Math.round(px);
+        String displayCutout = context.getResources().getString(R.string.config_mainBuiltInDisplayCutout);
+        boolean maskDisplayCutout = context.getResources().getBoolean(R.bool.config_maskMainBuiltInDisplayCutout);
+        boolean displayCutoutExists = (!TextUtils.isEmpty(displayCutout) && !maskDisplayCutout);
+        return displayCutoutExists;
     }
 
     public static void takeScreenshot(boolean full) {
