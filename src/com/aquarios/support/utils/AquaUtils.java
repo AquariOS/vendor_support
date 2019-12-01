@@ -317,6 +317,15 @@ public class AquaUtils {
         }
     }
 
+    public static void setPartialScreenshot(boolean active) {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.setPartialScreenshot(active);
+            } catch (RemoteException e) {}
+        }
+    }
+
     // Method to turn off the screen
     public static void switchScreenOff(Context ctx) {
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
