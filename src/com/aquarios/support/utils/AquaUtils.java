@@ -49,6 +49,7 @@ import android.view.WindowManagerGlobal;
 
 import java.util.Locale;
 
+import com.android.internal.R;
 import com.android.internal.statusbar.IStatusBarService;
 
 public class AquaUtils {
@@ -311,6 +312,14 @@ public class AquaUtils {
             wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Method to turn off the screen
+    public static void switchScreenOff(Context ctx) {
+        PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        if (pm!= null) {
+            pm.goToSleep(SystemClock.uptimeMillis());
         }
     }
 }
