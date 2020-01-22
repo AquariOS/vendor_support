@@ -257,13 +257,6 @@ public class AquaUtils {
         }, 20);
     }
 
-    public static void goToSleep(Context context) {
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if(pm != null) {
-            pm.goToSleep(SystemClock.uptimeMillis());
-        }
-    }
-
     /**
      * Ezio84's torch action util
      */
@@ -296,12 +289,24 @@ public class AquaUtils {
         }
     }
 
+    /**
+     * Actions
+     */
+    // Method to take screenshot
     public static void takeScreenshot(boolean full) {
         IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
         try {
             wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Method to turn off screen; go to sleep
+    public static void goToSleep(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if(pm != null) {
+            pm.goToSleep(SystemClock.uptimeMillis());
         }
     }
 
