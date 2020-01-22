@@ -38,6 +38,7 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.DisplayInfo;
 import android.view.InputDevice;
@@ -185,6 +186,14 @@ public class AquaUtils {
 
     public static boolean isTablet(Context context) {
         return getScreenType(context) == DEVICE_TABLET;
+    }
+
+    // Check to see if device display has a visible notch 
+    public static boolean hasVisibleNotch(Context context) {
+        String displayCutout = context.getResources().getString(R.string.config_mainBuiltInDisplayCutout);
+        boolean maskDisplayCutout = context.getResources().getBoolean(R.bool.config_maskMainBuiltInDisplayCutout);
+        boolean displayCutoutExists = (!TextUtils.isEmpty(displayCutout) && !maskDisplayCutout);
+        return displayCutoutExists;
     }
 
     // Omni Switch Constants
