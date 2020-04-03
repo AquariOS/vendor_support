@@ -16,6 +16,7 @@
 
 package com.aquarios.support.utils;
 
+import android.app.ActivityManager;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -62,6 +63,18 @@ public class AquaUtils {
     private static final int DEVICE_TABLET = 2;
     public static final String INTENT_SCREENSHOT = "action_handler_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_handler_region_screenshot";
+
+    private static IStatusBarService mStatusBarService = null;
+
+    private static IStatusBarService getStatusBarService() {
+        synchronized (AquaUtils.class) {
+            if (mStatusBarService == null) {
+                mStatusBarService = IStatusBarService.Stub.asInterface(
+                        ServiceManager.getService("statusbar"));
+            }
+            return mStatusBarService;
+        }
+    }
 
     public static boolean isChineseLanguage() {
        return Resources.getSystem().getConfiguration().locale.getLanguage().startsWith(
@@ -355,5 +368,17 @@ public class AquaUtils {
         int state = enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
         pm.setComponentEnabledSetting(componentName, state, PackageManager.DONT_KILL_APP);
+    }
+
+    // Clear notifications
+    public static void clearAllNotifications() {
+        IStatusBarService service = getStatusBarService();
+        if (service != null) {
+            try {
+                service.onClearAllNotifications(ActivityManager.getCurrentUser());
+            } catch (RemoteException e) {
+                // do nothing.
+            }
+        }
     }
 }
