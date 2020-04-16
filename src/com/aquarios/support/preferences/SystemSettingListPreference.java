@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2017-2018 AICP
+ * Copyright (C) 2016-2018 crDroid Android Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,4 +68,7 @@ public class SystemSettingListPreference extends ListPreference {
         setValue(restoreValue ? getPersistedString((String) defaultValue) : (String) defaultValue);
     }
 
+    public int getIntValue(int defValue) {
+        return getValue() == null ? defValue : Integer.valueOf(getValue());
+    }
 }
